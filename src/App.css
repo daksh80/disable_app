@@ -1,0 +1,6 @@
+.app__body{
+ display: flex;
+ border-radius: 10px;
+ text-align: center;
+ height: fit-content;
+}
