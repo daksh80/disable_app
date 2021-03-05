@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { login } from './features/userSlice';
 import { auth } from './firebase';
 import './Login.css'
 import Logo from './Logo.png'
@@ -8,10 +9,30 @@ function Login() {
     const[password ,setPassword]= useState("");
     const[name ,setName]= useState("");
     const[profilepic ,setProfilePic]= useState("");
+    const dispatch = useDispatch();
     const logintoApp = (e) => {
         e.preventDefault();
     };
     const register = () => {
+        if(!name){
+            return alert('please enter a full name');
+        }
+        auth.createUserWithEmailAndPassword(email,password)
+        .then((userAuth)=>{
+            userAuth.user.updateProfile({
+                displayName: name,
+                photoURL: profilePic,
+                
+            })
+            .then(()=>{
+               dispatch(login({
+                   email: userAuth.user.email,
+                   uid: userAuth.user.uid,
+                   displayName: name,
+                   photoURL: profilePic,
+               }))
+            })
+        })
     };
     return (
         <div className='login'>
