@@ -1,3 +1,4 @@
+import  Widgets  from './Widgets';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
@@ -34,7 +35,7 @@ function App() {
             <div className="app__body">
             <Sidebar />
             <Feed />
-            {/*widgets*/}
+            <Widgets />
           </div>
           )}
         
