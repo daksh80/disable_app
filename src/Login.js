@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { login } from './features/userSlice';
+import { useDispatch } from "react-redux";
 import { auth } from './firebase';
 import './Login.css'
 import Logo from './Logo.png'
@@ -12,6 +13,15 @@ function Login() {
     const dispatch = useDispatch();
     const logintoApp = (e) => {
         e.preventDefault();
+        auth.signInWithEmailAndPassword(email,password)
+        .then(userAuth =>{
+            dispatch(login({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: userAuth.user.displayName,
+                profileUrl: userAuth.user.photoURL,
+            }))
+        }).catch((error) => alert(error));
     };
     const register = () => {
         if(!name){
@@ -21,7 +31,7 @@ function Login() {
         .then((userAuth)=>{
             userAuth.user.updateProfile({
                 displayName: name,
-                photoURL: profilePic,
+                photoURL: profilepic,
                 
             })
             .then(()=>{
@@ -29,7 +39,7 @@ function Login() {
                    email: userAuth.user.email,
                    uid: userAuth.user.uid,
                    displayName: name,
-                   photoURL: profilePic,
+                   photoURL: profilepic,
                }))
             })
         })
